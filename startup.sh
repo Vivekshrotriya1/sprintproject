@@ -13,6 +13,13 @@ fi
 
 export PYTHONPATH="/home/site/wwwroot:/home/site/wwwroot/api:${PYTHONPATH}"
 
+if ! python -c "import uvicorn" >/dev/null 2>&1; then
+  echo "Python packages not found. Installing app dependencies..."
+  python -m pip install --upgrade pip
+  python -m pip install -r requirements.txt --target="/home/site/wwwroot/.python_packages/lib/site-packages"
+  export PYTHONPATH="/home/site/wwwroot/.python_packages/lib/site-packages:${PYTHONPATH}"
+fi
+
 mkdir -p /app
 ln -sfn /home/site/wwwroot/models /app/models
 ln -sfn /home/site/wwwroot/data /app/data
