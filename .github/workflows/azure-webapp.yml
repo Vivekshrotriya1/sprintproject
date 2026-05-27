@@ -59,6 +59,7 @@ jobs:
         with:
           name: python-app
           path: deploy-package
+          include-hidden-files: true
 
   deploy:
     runs-on: ubuntu-latest
