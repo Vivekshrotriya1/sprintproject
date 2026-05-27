@@ -57,12 +57,12 @@ jobs:
             echo "torchvision==0.17.2+cpu"
           } > deploy-package/requirements.txt
 
-      - name: Install dependencies into deployment package
+      - name: Validate requirements file
         shell: bash
         working-directory: deploy-package
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt --target=".python_packages/lib/site-packages"
+          python -m pip install --dry-run -r requirements.txt
 
       - name: Upload deployment artifact
         uses: actions/upload-artifact@v4

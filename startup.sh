@@ -3,7 +3,15 @@ set -e
 
 cd /home/site/wwwroot
 
-export PYTHONPATH="/home/site/wwwroot/.python_packages/lib/site-packages:/home/site/wwwroot:/home/site/wwwroot/api:${PYTHONPATH}"
+if [ -d "/home/site/wwwroot/antenv/lib/python3.10/site-packages" ]; then
+  export PYTHONPATH="/home/site/wwwroot/antenv/lib/python3.10/site-packages:${PYTHONPATH}"
+fi
+
+if [ -d "/home/site/wwwroot/.python_packages/lib/site-packages" ]; then
+  export PYTHONPATH="/home/site/wwwroot/.python_packages/lib/site-packages:${PYTHONPATH}"
+fi
+
+export PYTHONPATH="/home/site/wwwroot:/home/site/wwwroot/api:${PYTHONPATH}"
 
 mkdir -p /app
 ln -sfn /home/site/wwwroot/models /app/models
