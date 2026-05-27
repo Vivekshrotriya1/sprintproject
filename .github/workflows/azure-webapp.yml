@@ -24,8 +24,14 @@ jobs:
         shell: bash
         run: |
           git lfs pull
+          model_size="$(wc -c < models/walmart_pipeline_model.pkl)"
+          echo "Repository model size: ${model_size} bytes"
           if head -c 20 models/walmart_pipeline_model.pkl | grep -q "version https"; then
             echo "Model file is still a Git LFS pointer. Check Git LFS upload for models/walmart_pipeline_model.pkl."
+            exit 1
+          fi
+          if [ "$model_size" -lt 100000 ]; then
+            echo "Model file is too small to be the trained pickle."
             exit 1
           fi
 
@@ -63,6 +69,12 @@ jobs:
             ./ deploy-package/
 
           cp requirements-azure.txt deploy-package/requirements.txt
+          package_model_size="$(wc -c < deploy-package/models/walmart_pipeline_model.pkl)"
+          echo "Packaged model size: ${package_model_size} bytes"
+          if [ "$package_model_size" -lt 100000 ]; then
+            echo "Packaged model is too small to be the trained pickle."
+            exit 1
+          fi
 
       - name: Validate requirements file
         shell: bash

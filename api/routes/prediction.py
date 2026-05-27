@@ -7,15 +7,22 @@ from api.database import retail_collection
 
 router = APIRouter()
 
-# LOAD MODEL
-
 model_path = os.path.join(
     '/app',
     'models',
     'walmart_pipeline_model.pkl'
 )
 
-model = joblib.load(model_path)
+model = None
+
+
+def get_model():
+    global model
+
+    if model is None:
+        model = joblib.load(model_path)
+
+    return model
 
 
 @router.get("/predict-sales")
@@ -83,7 +90,7 @@ def predict_sales():
 
         # PREDICT SALES
 
-        prediction = model.predict(input_data)
+        prediction = get_model().predict(input_data)
 
         predicted_sales = round(
             float(prediction[0]),
