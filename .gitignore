@@ -27,3 +27,8 @@ logs/
 *.faiss
 *.index
 data/
+!data/
+data/*
+!data/processed/
+data/processed/*
+!data/processed/cleaned_walmart_dataset.csv
