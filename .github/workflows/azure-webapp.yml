@@ -64,6 +64,15 @@ jobs:
             --exclude "agents/vector_store" \
             --exclude "agents/test_blob.py" \
             --exclude "agents/rag_setup.py" \
+            --exclude "agents/blob_storage.py" \
+            --exclude "agents/inventory_agent.py" \
+            --exclude "agents/main.py" \
+            --exclude "agents/policy_agent.py" \
+            --exclude "agents/retail_strategy_agent.py" \
+            --exclude "agents/tools.py" \
+            --exclude "agents/rag_data/faiss_index.bin" \
+            --exclude "agents/rag_data/show_chunks.py" \
+            --exclude "agents/rag_data/show_faiss_vectors.py" \
             --exclude "blobstorage/run_blob.py" \
             --exclude "*.pyc" \
             ./ deploy-package/
