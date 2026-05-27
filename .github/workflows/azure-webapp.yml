@@ -8,7 +8,7 @@ on:
 
 env:
   PYTHON_VERSION: "3.10"
-  AZURE_WEBAPP_NAME: "YOUR_AZURE_WEBAPP_NAME"
+  AZURE_WEBAPP_NAME: "sprintproject"
 
 jobs:
   build:
