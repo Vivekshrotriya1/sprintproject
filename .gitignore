@@ -1,0 +1,29 @@
+# Python stuff
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
+
+# Docker
+.dockerignore
+
+# Logs
+*.log
+logs/
+
+# IDE/Editor folders
+.vscode/
+.idea/
+.DS_Store
+
+# Azure/Deployment specific
+.azure/
+.publishsettings
+*.publishsettings
+
+# FAISS and local data
+*.faiss
+*.index
+data/
