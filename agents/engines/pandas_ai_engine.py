@@ -2,7 +2,7 @@ import pandas as pd
 
 from pandasai import Agent as PandasAgent
 
-from engines.azure_config import llm
+from engines.azure_config import get_pandasai_llm
 
 from engines.response_formatter import (
     format_business_response
@@ -48,7 +48,7 @@ pandas_agent = PandasAgent(
 
     config={
 
-        "llm": llm,
+        "llm": get_pandasai_llm(),
 
         "verbose": False,
 

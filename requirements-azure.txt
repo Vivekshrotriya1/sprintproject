@@ -2,6 +2,7 @@ certifi==2026.5.20
 dnspython==2.8.0
 fastapi==0.136.1
 numpy==1.26.4
+openai==2.38.0
 pandas==1.5.3
 pydantic==2.12.5
 pymongo==4.17.0

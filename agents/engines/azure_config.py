@@ -4,8 +4,6 @@ from dotenv import load_dotenv
 
 from openai import AzureOpenAI as AzureClient
 
-from pandasai.llm.azure_openai import AzureOpenAI
-
 load_dotenv()
 
 # AZURE OPENAI CLIENT
@@ -25,23 +23,32 @@ client_azure = AzureClient(
     )
 )
 
-# PANDASAI LLM
+llm = None
 
-llm = AzureOpenAI(
 
-    api_token=os.getenv(
-        "AZURE_OPENAI_API_KEY"
-    ),
+def get_pandasai_llm():
+    global llm
 
-    azure_endpoint=os.getenv(
-        "AZURE_OPENAI_ENDPOINT"
-    ),
+    if llm is None:
+        from pandasai.llm.azure_openai import AzureOpenAI
 
-    api_version=os.getenv(
-        "AZURE_OPENAI_API_VERSION"
-    ),
+        llm = AzureOpenAI(
 
-    deployment_name=os.getenv(
-        "AZURE_OPENAI_DEPLOYMENT"
-    )
-)
+            api_token=os.getenv(
+                "AZURE_OPENAI_API_KEY"
+            ),
+
+            azure_endpoint=os.getenv(
+                "AZURE_OPENAI_ENDPOINT"
+            ),
+
+            api_version=os.getenv(
+                "AZURE_OPENAI_API_VERSION"
+            ),
+
+            deployment_name=os.getenv(
+                "AZURE_OPENAI_DEPLOYMENT"
+            )
+        )
+
+    return llm

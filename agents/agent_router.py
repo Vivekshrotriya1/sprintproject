@@ -1,97 +1,58 @@
 import os
 
-from crewai import (
-
-    Agent,
-
-    Task,
-
-    Crew,
-
-    Process
-)
-
 from logger_config import logger
 
 from engines.azure_config import (
     client_azure
 )
 
-from engines.pandas_ai_engine import (
-
-    retail_analysis,
-
-    inventory_analysis
-)
-
-from engines.rag_engine import (
-    policy_rag_search
-)
-
-# RETAIL AGENT
-
-retail_agent = Agent(
-
-    role="Retail Strategy Expert",
-
-    goal="""
-    Analyze Walmart retail sales,
-    store performance,
-    and business KPIs.
-    """,
-
-    backstory="""
-    Enterprise retail analytics expert.
-    """,
-
-    verbose=True,
-
-    allow_delegation=False
-)
-
-# INVENTORY AGENT
-
-inventory_agent = Agent(
-
-    role="Inventory Optimization Expert",
-
-    goal="""
-    Analyze inventory demand,
-    warehouse performance,
-    and supply chain optimization.
-    """,
-
-    backstory="""
-    Enterprise inventory analytics expert.
-    """,
-
-    verbose=True,
-
-    allow_delegation=False
-)
-
-# POLICY AGENT
-
-policy_agent = Agent(
-
-    role="Policy Compliance Expert",
-
-    goal="""
-    Answer enterprise policy
-    and compliance queries.
-    """,
-
-    backstory="""
-    Enterprise compliance and
-    governance specialist.
-    """,
-
-    verbose=True,
-
-    allow_delegation=False
-)
-
 # MAIN ROUTER FUNCTION
+
+def keyword_route(query):
+
+    normalized_query = query.lower()
+
+    retail_keywords = [
+        "sale",
+        "sales",
+        "revenue",
+        "store",
+        "stores",
+        "retail",
+        "pricing",
+        "customer",
+        "weekly_sales",
+        "top 5"
+    ]
+
+    inventory_keywords = [
+        "inventory",
+        "stock",
+        "warehouse",
+        "supply",
+        "demand",
+        "forecast"
+    ]
+
+    policy_keywords = [
+        "policy",
+        "attendance",
+        "compliance",
+        "hr",
+        "cybersecurity",
+        "governance"
+    ]
+
+    if any(keyword in normalized_query for keyword in retail_keywords):
+        return "Retail Strategy Agent"
+
+    if any(keyword in normalized_query for keyword in inventory_keywords):
+        return "Inventory Optimization Agent"
+
+    if any(keyword in normalized_query for keyword in policy_keywords):
+        return "Policy Compliance Agent"
+
+    return None
 
 def route_query(query):
 
@@ -104,19 +65,23 @@ def route_query(query):
             f"User Query: {query}"
         )
 
-        # AZURE ROUTER
+        selected_agent = keyword_route(query)
 
-        router_response = client_azure.chat.completions.create(
+        if selected_agent is None:
 
-            model=os.getenv(
-                "AZURE_OPENAI_DEPLOYMENT"
-            ),
+            # AZURE ROUTER
 
-            temperature=0,
+            router_response = client_azure.chat.completions.create(
 
-            messages=[
+                model=os.getenv(
+                    "AZURE_OPENAI_DEPLOYMENT"
+                ),
 
-                {
+                temperature=0,
+
+                messages=[
+
+                    {
     "role": "system",
 
     "content":
@@ -171,22 +136,22 @@ def route_query(query):
     """
 },
 
-                {
-                    "role": "user",
+                    {
+                        "role": "user",
 
-                    "content": query
-                }
-            ]
-        )
+                        "content": query
+                    }
+                ]
+            )
 
-        selected_agent = (
+            selected_agent = (
 
-            router_response
-            .choices[0]
-            .message
-            .content
-            .strip()
-        )
+                router_response
+                .choices[0]
+                .message
+                .content
+                .strip()
+            )
 
         # LOG SELECTED AGENT
 
@@ -206,31 +171,7 @@ def route_query(query):
                 "Executing Retail Strategy Agent"
             )
 
-            task = Task(
-
-                description=f"""
-                Analyze retail query:
-
-                {query}
-                """,
-
-                expected_output="""
-                Retail analytics insights.
-                """,
-
-                agent=retail_agent
-            )
-
-            crew = Crew(
-
-                agents=[retail_agent],
-
-                tasks=[task],
-
-                process=Process.sequential,
-
-                verbose=True
-            )
+            from engines.pandas_ai_engine import retail_analysis
 
             response = retail_analysis(query)
 
@@ -257,31 +198,7 @@ def route_query(query):
                 "Executing Inventory Optimization Agent"
             )
 
-            task = Task(
-
-                description=f"""
-                Analyze inventory query:
-
-                {query}
-                """,
-
-                expected_output="""
-                Inventory optimization insights.
-                """,
-
-                agent=inventory_agent
-            )
-
-            crew = Crew(
-
-                agents=[inventory_agent],
-
-                tasks=[task],
-
-                process=Process.sequential,
-
-                verbose=True
-            )
+            from engines.pandas_ai_engine import inventory_analysis
 
             response = inventory_analysis(query)
 
@@ -308,31 +225,7 @@ def route_query(query):
                 "Executing Policy Compliance Agent"
             )
 
-            task = Task(
-
-                description=f"""
-                Analyze policy query:
-
-                {query}
-                """,
-
-                expected_output="""
-                Enterprise policy response.
-                """,
-
-                agent=policy_agent
-            )
-
-            crew = Crew(
-
-                agents=[policy_agent],
-
-                tasks=[task],
-
-                process=Process.sequential,
-
-                verbose=True
-            )
+            from engines.rag_engine import policy_rag_search
 
             response = policy_rag_search(query)
 
@@ -380,7 +273,7 @@ def route_query(query):
         return {
 
             "agent":
-            "CrewAI Router Error",
+            "Agent Router Error",
 
             "response":
             f" Error: {str(e)}"
