@@ -1,30 +1,24 @@
 from fastapi import APIRouter
-
 import pandas as pd
-
-import pickle
-
-
+import joblib
+import os
 
 from api.database import retail_collection
-
-
 
 router = APIRouter()
 
 # LOAD MODEL
-import os
 
+model_path = os.path.join(
+    '/app',
+    'models',
+    'walmart_pipeline_model.pkl'
+)
 
-model_path = os.path.join('/app', 'models', 'walmart_pipeline_model.pkl')
-
-with open(model_path, 'rb') as f:
-    model = pickle.load(f)
-
+model = joblib.load(model_path)
 
 
 @router.get("/predict-sales")
-
 def predict_sales():
 
     try:
@@ -32,9 +26,7 @@ def predict_sales():
         # FETCH LATEST RECORD
 
         latest_data = retail_collection.find_one(
-
             sort=[
-
                 ("created_at", -1)
             ]
         )
@@ -44,81 +36,57 @@ def predict_sales():
         if not latest_data:
 
             return {
-
-                "message":
-                "No data found in MongoDB"
+                "message": "No data found in MongoDB"
             }
 
         # CREATE INPUT DATAFRAME
 
         input_data = pd.DataFrame([{
 
-            "Store":
-            latest_data["Store"],
+            "Store": latest_data["Store"],
 
-            "Dept":
-            latest_data["Dept"],
+            "Dept": latest_data["Dept"],
 
-            "IsHoliday":
-            latest_data["IsHoliday"],
+            "IsHoliday": latest_data["IsHoliday"],
 
-            "Temperature":
-            latest_data["Temperature"],
+            "Temperature": latest_data["Temperature"],
 
-            "Fuel_Price":
-            latest_data["Fuel_Price"],
+            "Fuel_Price": latest_data["Fuel_Price"],
 
-            "MarkDown1":
-            latest_data["MarkDown1"],
+            "MarkDown1": latest_data["MarkDown1"],
 
-            "MarkDown2":
-            latest_data["MarkDown2"],
+            "MarkDown2": latest_data["MarkDown2"],
 
-            "MarkDown3":
-            latest_data["MarkDown3"],
+            "MarkDown3": latest_data["MarkDown3"],
 
-            "MarkDown4":
-            latest_data["MarkDown4"],
+            "MarkDown4": latest_data["MarkDown4"],
 
-            "MarkDown5":
-            latest_data["MarkDown5"],
+            "MarkDown5": latest_data["MarkDown5"],
 
-            "CPI":
-            latest_data["CPI"],
+            "CPI": latest_data["CPI"],
 
-            "Unemployment":
-            latest_data["Unemployment"],
+            "Unemployment": latest_data["Unemployment"],
 
-            "Size":
-            latest_data["Size"],
+            "Size": latest_data["Size"],
 
-            "Year":
-            latest_data["Year"],
+            "Year": latest_data["Year"],
 
-            "Month":
-            latest_data["Month"],
+            "Month": latest_data["Month"],
 
-            "Week":
-            latest_data["Week"],
+            "Week": latest_data["Week"],
 
-            "Type_B":
-            latest_data["Type_B"],
+            "Type_B": latest_data["Type_B"],
 
-            "Type_C":
-            latest_data["Type_C"]
+            "Type_C": latest_data["Type_C"]
+
         }])
 
         # PREDICT SALES
 
-        prediction = model.predict(
-
-            input_data
-        )
+        prediction = model.predict(input_data)
 
         predicted_sales = round(
-
             float(prediction[0]),
-
             2
         )
 
@@ -127,17 +95,12 @@ def predict_sales():
         retail_collection.update_one(
 
             {
-
-                "_id":
-                latest_data["_id"]
+                "_id": latest_data["_id"]
             },
 
             {
-
                 "$set": {
-
-                    "Predicted_Weekly_Sales":
-                    predicted_sales
+                    "Predicted_Weekly_Sales": predicted_sales
                 }
             }
         )
@@ -146,26 +109,19 @@ def predict_sales():
 
         return {
 
-            "message":
-            "Prediction completed successfully",
+            "message": "Prediction completed successfully",
 
-            "mongo_id":
-            str(latest_data["_id"]),
+            "mongo_id": str(latest_data["_id"]),
 
-            "Store":
-            latest_data["Store"],
+            "Store": latest_data["Store"],
 
-            "Dept":
-            latest_data["Dept"],
+            "Dept": latest_data["Dept"],
 
-            "Predicted_Weekly_Sales":
-            predicted_sales
+            "Predicted_Weekly_Sales": predicted_sales
         }
 
     except Exception as e:
 
         return {
-
-            "error":
-            str(e)
+            "error": str(e)
         }
