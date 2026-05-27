@@ -23,7 +23,7 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
-      - name: Create Linux-safe requirements
+      - name: Create lightweight Azure package
         shell: bash
         run: |
           mkdir -p deploy-package
@@ -32,6 +32,8 @@ jobs:
             --exclude ".github" \
             --exclude ".env" \
             --exclude "venv" \
+            --exclude "antenv" \
+            --exclude ".python_packages" \
             --exclude "__pycache__" \
             --exclude ".pytest_cache" \
             --exclude "logs" \
@@ -49,13 +51,7 @@ jobs:
             --exclude "*.pyc" \
             ./ deploy-package/
 
-          {
-            echo "--extra-index-url https://download.pytorch.org/whl/cpu"
-            grep -v -E "^(pywin32==|torch==|torchaudio==|torchvision==)" requirements.txt
-            echo "torch==2.2.2+cpu"
-            echo "torchaudio==2.2.2+cpu"
-            echo "torchvision==0.17.2+cpu"
-          } > deploy-package/requirements.txt
+          cp requirements-azure.txt deploy-package/requirements.txt
 
       - name: Validate requirements file
         shell: bash

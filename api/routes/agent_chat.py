@@ -18,9 +18,6 @@ sys.path.append(
 )
 
 
-from agent_router import route_query
-
-
 router = APIRouter()
 
 # REQUEST MODEL
@@ -37,6 +34,7 @@ def agent_chat(request: ChatRequest):
 
     try:
 
+        from agent_router import route_query
 
         result = route_query(
 
