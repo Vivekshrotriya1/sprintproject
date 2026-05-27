@@ -4,18 +4,39 @@ from sklearn.ensemble import IsolationForest
 
 
 import os
-# Docker mein root /app hai, isliye seedha path do
-file_path = os.path.join('/app', 'data', 'processed', 'cleaned_walmart_dataset.csv')
-df = pd.read_csv(file_path)
+
+file_path = os.path.join(
+    '/app',
+    'data',
+    'processed',
+    'cleaned_walmart_dataset.csv'
+)
+
+df = None
+
+
+def get_dataframe():
+    global df
+
+    if df is None:
+        if not os.path.exists(file_path):
+            raise FileNotFoundError(
+                f"Dataset not found at {file_path}. Add it to the deployment or upload it to Azure storage."
+            )
+
+        df = pd.read_csv(file_path)
+
+    return df
 
 
 def detect_sales_anomalies():
 
     try:
+        data = get_dataframe().copy()
 
         # SELECT FEATURES
 
-        features = df[[
+        features = data[[
 
             "Weekly_Sales"
         ]]
@@ -33,15 +54,15 @@ def detect_sales_anomalies():
 
         # PREDICT ANOMALIES
 
-        df["Anomaly"] = model.predict(
+        data["Anomaly"] = model.predict(
             features
         )
 
         # FILTER ANOMALIES
 
-        anomalies = df[
+        anomalies = data[
 
-            df["Anomaly"] == -1
+            data["Anomaly"] == -1
         ]
 
         # SELECT IMPORTANT COLUMNS
