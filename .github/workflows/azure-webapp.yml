@@ -17,6 +17,17 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Fetch Git LFS files
+        shell: bash
+        run: |
+          git lfs pull
+          if head -c 20 models/walmart_pipeline_model.pkl | grep -q "version https"; then
+            echo "Model file is still a Git LFS pointer. Check Git LFS upload for models/walmart_pipeline_model.pkl."
+            exit 1
+          fi
 
       - name: Set up Python
         uses: actions/setup-python@v5

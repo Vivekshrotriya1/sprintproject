@@ -34,7 +34,7 @@ def agent_chat(request: ChatRequest):
 
     try:
 
-        from agent_router import route_query
+        from agents.agent_router import route_query
 
         result = route_query(
 
