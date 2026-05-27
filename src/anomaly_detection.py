@@ -1,16 +1,6 @@
-import pandas as pd
-
 from sklearn.ensemble import IsolationForest
 
-
-import os
-
-file_path = os.path.join(
-    '/app',
-    'data',
-    'processed',
-    'cleaned_walmart_dataset.csv'
-)
+from src.dataset_loader import load_dataset
 
 df = None
 
@@ -19,12 +9,7 @@ def get_dataframe():
     global df
 
     if df is None:
-        if not os.path.exists(file_path):
-            raise FileNotFoundError(
-                f"Dataset not found at {file_path}. Add it to the deployment or upload it to Azure storage."
-            )
-
-        df = pd.read_csv(file_path)
+        df = load_dataset()
 
     return df
 

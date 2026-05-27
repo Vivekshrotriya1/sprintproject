@@ -8,34 +8,11 @@ from engines.response_formatter import (
     format_business_response
 )
 
-# LOAD DATASET
-
-import os
-
-# BASE DIRECTORY
-
-BASE_DIR = os.path.dirname(
-    os.path.abspath(__file__)
-)
-
-# DATASET PATH
-
-DATASET_PATH = os.path.join(
-
-    BASE_DIR,
-    "..",
-    "..",
-    "data",
-    "processed",
-    "cleaned_walmart_dataset.csv"
-)
+from src.dataset_loader import load_dataset
 
 # LOAD DATASET
 
-df = pd.read_csv(
-
-    DATASET_PATH
-)
+df = load_dataset()
 
 print("Dataset Loaded Successfully!")
 
