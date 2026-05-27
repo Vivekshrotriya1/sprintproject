@@ -7,5 +7,6 @@ export PYTHONPATH="/home/site/wwwroot/.python_packages/lib/site-packages:/home/s
 
 mkdir -p /app
 ln -sfn /home/site/wwwroot/models /app/models
+ln -sfn /home/site/wwwroot/data /app/data
 
 python -m uvicorn api.app:app --host 0.0.0.0 --port "${PORT:-8000}"

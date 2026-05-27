@@ -36,6 +36,16 @@ jobs:
             --exclude ".pytest_cache" \
             --exclude "logs" \
             --exclude "api/logs" \
+            --exclude "tests" \
+            --exclude "dashboard" \
+            --exclude "exports" \
+            --exclude "deployment" \
+            --exclude "data/raw" \
+            --exclude "agents/documents" \
+            --exclude "agents/vector_store" \
+            --exclude "agents/test_blob.py" \
+            --exclude "agents/rag_setup.py" \
+            --exclude "blobstorage/run_blob.py" \
             --exclude "*.pyc" \
             ./ deploy-package/
 
