@@ -68,7 +68,10 @@ jobs:
             --exclude "*.pyc" \
             ./ deploy-package/
 
-          cp requirements-azure.txt deploy-package/requirements.txt
+          {
+            echo "--extra-index-url https://download.pytorch.org/whl/cpu"
+            cat requirements-azure.txt
+          } > deploy-package/requirements.txt
           package_model_size="$(wc -c < deploy-package/models/walmart_pipeline_model.pkl)"
           echo "Packaged model size: ${package_model_size} bytes"
           if [ "$package_model_size" -lt 100000 ]; then
