@@ -8,9 +8,7 @@ from sklearn.pipeline import Pipeline
 
 from xgboost import XGBRegressor
 
-# ==========================================
 # LOAD DATASET
-# ==========================================
 
 df = pd.read_csv(
     "../data/processed/cleaned_walmart_dataset.csv"
@@ -18,9 +16,7 @@ df = pd.read_csv(
 
 print("Dataset Loaded Successfully!")
 
-# ==========================================
 # FEATURES & TARGET
-# ==========================================
 
 X = df.drop(
     'Weekly_Sales',
@@ -29,9 +25,7 @@ X = df.drop(
 
 y = df['Weekly_Sales']
 
-# ==========================================
 # TRAIN TEST SPLIT
-# ==========================================
 
 X_train, X_test, y_train, y_test = train_test_split(
 
@@ -43,9 +37,7 @@ X_train, X_test, y_train, y_test = train_test_split(
     random_state=42
 )
 
-# ==========================================
 # CREATE PIPELINE
-# ==========================================
 
 pipeline = Pipeline(
 
@@ -71,9 +63,7 @@ pipeline = Pipeline(
 
 print("Pipeline Created Successfully!")
 
-# ==========================================
 # TRAIN MODEL
-# ==========================================
 
 pipeline.fit(
     X_train,

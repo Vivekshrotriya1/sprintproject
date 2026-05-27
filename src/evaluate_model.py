@@ -46,9 +46,7 @@ model = pickle.load(
     )
 )
 
-# ==========================================
 # PREDICTIONS
-# ==========================================
 
 train_preds = model.predict(
     X_train
@@ -58,9 +56,7 @@ test_preds = model.predict(
     X_test
 )
 
-# ==========================================
 # METRICS
-# ==========================================
 
 train_r2 = r2_score(
     y_train,
@@ -82,30 +78,24 @@ test_mae = mean_absolute_error(
     test_preds
 )
 
-# ==========================================
 # REPORT
-# ==========================================
 
-print("==================================================")
 
-print("📊 WALMART SALES FORECASTING MODEL REPORT")
+print(" WALMART SALES FORECASTING MODEL REPORT")
 
-print("==================================================")
 
 print(
-    f"📈 TRAIN DATA Accuracy : {train_r2 * 100:.2f}%"
+    f" TRAIN DATA Accuracy : {train_r2 * 100:.2f}%"
 )
 
 print(
-    f"📉 TEST DATA Accuracy  : {test_r2 * 100:.2f}%"
+    f" TEST DATA Accuracy  : {test_r2 * 100:.2f}%"
 )
 
 print(
-    f"💸 Train MAE : {train_mae:.2f}"
+    f" Train MAE : {train_mae:.2f}"
 )
 
 print(
-    f"💸 Test MAE  : {test_mae:.2f}"
+    f" Test MAE  : {test_mae:.2f}"
 )
-
-print("==================================================")

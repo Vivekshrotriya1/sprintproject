@@ -5,7 +5,9 @@ from logger_config import logger
 from engines.azure_config import (
     client_azure
 )
+# If keyword matching finds an agent, Azure OpenAI is not used for routing.
 
+# If keyword matching returns None, then it uses Azure OpenAI to select the agent:
 # MAIN ROUTER FUNCTION
 
 def keyword_route(query):

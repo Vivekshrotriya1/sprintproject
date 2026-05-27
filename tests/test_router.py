@@ -1,9 +1,9 @@
 import sys
 import os
 
-# ======================================
+
 # PROJECT ROOT
-# ======================================
+
 
 CURRENT_DIR = os.path.dirname(
     os.path.abspath(__file__)
@@ -16,9 +16,9 @@ PROJECT_ROOT = os.path.abspath(
     )
 )
 
-# ======================================
+
 # AGENTS PATH
-# ======================================
+
 
 AGENTS_PATH = os.path.join(
 
@@ -29,17 +29,17 @@ AGENTS_PATH = os.path.join(
 
 sys.path.append(AGENTS_PATH)
 
-# ======================================
+
 # IMPORT ROUTER
-# ======================================
+
 
 from agent_router import (
     route_query
 )
 
-# ======================================
+
 # RETAIL TEST
-# ======================================
+
 
 def test_retail_agent():
 
@@ -52,9 +52,9 @@ def test_retail_agent():
         "Retail Strategy Agent"
     )
 
-# ======================================
+
 # INVENTORY TEST
-# ======================================
+
 
 def test_inventory_agent():
 
@@ -67,9 +67,9 @@ def test_inventory_agent():
         "Inventory Optimization Agent"
     )
 
-# ======================================
+
 # POLICY TEST
-# ======================================
+
 
 def test_policy_agent():
 
@@ -82,9 +82,9 @@ def test_policy_agent():
         "Policy Compliance Agent"
     )
 
-# ======================================
+
 # BLOCKED TEST
-# ======================================
+
 
 def test_blocked_query():
 
