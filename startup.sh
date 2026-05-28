@@ -12,8 +12,8 @@ fi
 
 export PYTHONPATH="${APP_ROOT}:${APP_ROOT}/api:${PYTHONPATH}"
 
-if [ -d "${APP_ROOT}/.python_packages/lib/site-packages" ]; then
-  export PYTHONPATH="${APP_ROOT}/.python_packages/lib/site-packages:${PYTHONPATH}"
+if [ -d "${APP_ROOT}/github_packages/lib/site-packages" ]; then
+  export PYTHONPATH="${APP_ROOT}/github_packages/lib/site-packages:${PYTHONPATH}"
 fi
 
 if ! "$APP_PYTHON" -c "import uvicorn" >/dev/null 2>&1; then
