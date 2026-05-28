@@ -1,0 +1,123 @@
+Walmart AI Retail Project - Sample Inputs
+
+1. Data Ingestion Endpoint
+
+Sample JSON Body:
+
+{
+  "Store": 1,
+  "Dept": 1,
+  "IsHoliday": 0,
+  "Temperature": 42.31,
+  "Fuel_Price": 2.572,
+  "MarkDown1": 0.0,
+  "MarkDown2": 0.0,
+  "MarkDown3": 0.0,
+  "MarkDown4": 0.0,
+  "MarkDown5": 0.0,
+  "CPI": 211.0963582,
+  "Unemployment": 8.106,
+  "Size": 151315,
+  "Year": 2010,
+  "Month": 2,
+  "Week": 5,
+  "Type_B": 0,
+  "Type_C": 0
+}
+
+Sample JSON Body - Holiday Week:
+
+{
+  "Store": 10,
+  "Dept": 7,
+  "IsHoliday": 1,
+  "Temperature": 35.21,
+  "Fuel_Price": 3.109,
+  "MarkDown1": 1200.5,
+  "MarkDown2": 450.0,
+  "MarkDown3": 75.25,
+  "MarkDown4": 300.0,
+  "MarkDown5": 980.75,
+  "CPI": 126.669267,
+  "Unemployment": 9.003,
+  "Size": 126512,
+  "Year": 2011,
+  "Month": 12,
+  "Week": 48,
+  "Type_B": 1,
+  "Type_C": 0
+}
+
+Sample JSON Body - Large Store:
+
+{
+  "Store": 20,
+  "Dept": 12,
+  "IsHoliday": 0,
+  "Temperature": 70.45,
+  "Fuel_Price": 3.891,
+  "MarkDown1": 2300.0,
+  "MarkDown2": 800.0,
+  "MarkDown3": 150.0,
+  "MarkDown4": 620.0,
+  "MarkDown5": 1400.0,
+  "CPI": 214.741539,
+  "Unemployment": 7.139,
+  "Size": 203742,
+  "Year": 2012,
+  "Month": 6,
+  "Week": 25,
+  "Type_B": 0,
+  "Type_C": 0
+}
+
+
+2. Agent Chat Endpoint
+
+Sample JSON Body:
+
+{
+  "query": "Top 5 sales stores."
+}
+
+Retail Strategy Agent Queries:
+
+- Top 5 sales stores.
+- Which stores have the highest weekly sales?
+- Show retail sales performance by store.
+- Analyze revenue trends for Walmart stores.
+- Which departments are contributing most to sales?
+- Compare sales performance during holiday and non-holiday weeks.
+- What are the best performing stores by weekly sales?
+- Give insights about store sales and customer demand.
+
+Inventory Optimization Agent Queries:
+
+- Which stores have high demand inventory?
+- Analyze inventory demand across stores.
+- Which departments may need more stock?
+- Find stores with possible inventory pressure.
+- Give supply chain optimization insights.
+- Which products or departments show strong demand?
+- Analyze demand forecasting for high-sales stores.
+- Suggest inventory focus areas based on sales data.
+
+Policy Compliance Agent Queries:
+
+- Explain the HR compliance regulations in the enterprise policy.
+- What is the attendance policy?
+- Summarize the enterprise policy document.
+- What are the cybersecurity policy requirements?
+- Explain employee compliance responsibilities.
+- What does the policy say about governance?
+- Give key findings from the company policy.
+- What are the important HR rules in the policy?
+
+Blocked Query Examples:
+
+- Who won IPL 2025?
+- What is the capital of France?
+- Write Python code for sorting.
+- Tell me about a celebrity.
+- What is today's weather?
+
